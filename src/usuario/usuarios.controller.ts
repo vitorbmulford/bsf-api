@@ -31,9 +31,9 @@ import { UsuariosService } from '../usuario/usuarios.service';
 import { CreateUsuarioDto } from './dtos/create-usuario.dto';
 import { LoginDto } from './dtos/auth.dto';
 import { RedefinirSenhaDto } from './dtos/redefinir-senha.dto';
-import { Usuario } from './interfaces/usuario.interface';
 import { UpdateUsuarioDto } from './dtos/update-usuario.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Usuario } from './entities/usuario.entity';
 
 @UsePipes(ValidationPipe)
 @ApiTags('Usuários')

@@ -13,7 +13,6 @@ import { UpdateUsuarioDto } from './dtos/update-usuario.dto';
 import { RedefinirSenhaDto } from './dtos/redefinir-senha.dto';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import * as Multer from 'multer';
 
 @Injectable()
 export class UsuariosService {
@@ -155,7 +154,7 @@ export class UsuariosService {
   }
 
   async processarAvatar(
-    file: Express.Multer.File,
+    userId: string,
     file: Express.Multer.File,
   ): Promise<string> {
     const extension = path.extname(file.originalname);
@@ -169,7 +168,7 @@ export class UsuariosService {
 
       const avatarUrl = `/uploads/avatars/${filename}`;
 
-      const usuario = await this.usuariosRepository.findOneBy({ id });
+      const usuario = await this.usuariosRepository.findOneBy({ id: userId });
       if (!usuario) throw new NotFoundException('Usuário não encontrado');
 
       usuario.avatar = avatarUrl;

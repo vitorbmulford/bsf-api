@@ -1,7 +1,7 @@
 // src/app.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from './typeorm.config';
+import { TypeOrmConfigService } from './config/typeorm.config';
 import { UsuariosModule } from '../src/usuario/usuario.module';
 
 @Module({
