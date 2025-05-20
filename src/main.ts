@@ -7,7 +7,16 @@ async function bootstrap() {
   dotenv.config();
   console.log('Starting application...');
   console.log('Environment:', process.env.NODE_ENV);
+
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+
+  // Habilita CORS para seu frontend
+  app.enableCors({
+    origin: 'http://localhost:3000', // coloque a URL do seu frontend aqui
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true, // se precisar enviar cookies ou autenticação
+  });
+
+  await app.listen(process.env.PORT ?? 8000);
 }
 bootstrap();
