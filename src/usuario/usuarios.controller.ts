@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import {
   Body,
   Controller,
@@ -334,7 +336,7 @@ export class UsuariosController {
     if (!file) {
       throw new BadRequestException('Nenhum arquivo enviado.');
     }
-
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (!file.mimetype.startsWith('image/')) {
       throw new BadRequestException('Formato de arquivo não suportado.');
     }

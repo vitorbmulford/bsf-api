@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import {
   BadRequestException,
   Injectable,
@@ -157,13 +160,14 @@ export class UsuariosService {
     userId: string,
     file: Express.Multer.File,
   ): Promise<string> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const extension = path.extname(file.originalname);
     const filename = `avatar-${Date.now()}${extension}`;
     const uploadDir = path.join(process.cwd(), 'uploads', 'avatars');
     const uploadPath = path.join(uploadDir, filename);
-
     try {
       await fs.mkdir(uploadDir, { recursive: true });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       await fs.writeFile(uploadPath, file.buffer);
 
       const avatarUrl = `/uploads/avatars/${filename}`;

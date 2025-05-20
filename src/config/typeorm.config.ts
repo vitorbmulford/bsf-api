@@ -1,20 +1,19 @@
-// src/shared/database/typeorm-config.service.ts
-import { Injectable } from '@nestjs/common';
-import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-@Injectable()
-export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  createTypeOrmOptions(): TypeOrmModuleOptions {
-    return {
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT, 10),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
-      synchronize: process.env.NODE_ENV !== 'production',
-      logging: true,
-    };
-  }
-}
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+ConfigModule.forRoot();
+
+export const typeOrmConfig: TypeOrmModuleOptions = {
+  type: 'postgres',
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  entities: [__dirname + '/../*/.entity.{ts,js}'],
+  synchronize: true, //Defina como false em produção
+  autoLoadEntities: true,
+  namingStrategy: new SnakeNamingStrategy(),
+};
