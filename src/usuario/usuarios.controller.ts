@@ -27,7 +27,7 @@ import {
   ApiConsumes,
   ApiBody,
 } from '@nestjs/swagger';
-import { UsuariosService } from '../services/usuarios.service';
+import { UsuariosService } from '../usuario/usuarios.service';
 import { CreateUsuarioDto } from './dtos/create-usuario.dto';
 import { LoginDto } from './dtos/auth.dto';
 import { RedefinirSenhaDto } from './dtos/redefinir-senha.dto';
