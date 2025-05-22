@@ -293,7 +293,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/produtos/{id}",
+							"raw": "http://localhost:8000/produtos/{_id}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -301,7 +301,7 @@
 							"port": "8000",
 							"path": [
 								"produtos",
-								"{id}"
+								"{_id}"
 							]
 						}
 					},
@@ -314,7 +314,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Camiseta Azul\",\r\n    \"preco\": 49.99,\r\n    \"descricao\": \"Camiseta 100% algodão, confortável e estilosa.\",\r\n    \"imagemUrl\": \"https://exemplo.com/imagens/camiseta-azul.jpg\",\r\n    \"estoque\": 150\r\n}",
+							"raw": "{\r\n    \"nome\": \"teste teste\",\r\n    \"preco\": 233.9,\r\n    \"precoPromocional\": 1.9,\r\n    \"descricao\": \"desc desc testeteste\",\r\n    \"imagemUrl\": \"https://link-da-imagem.com/imagem.png\",\r\n    \"estoque\": 5,\r\n    \"categoria\": \"teste\",\r\n    \"status\": \"ativo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
