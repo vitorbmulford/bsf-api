@@ -1,5 +1,5 @@
 
-![db](https://github.com/user-attachments/assets/261291b5-47d3-478d-9f05-af18f8754cc3)
+![db](https://github.com/user-attachments/assets/7091c453-d510-461d-a57c-3db98ab54a12)
 
 📦 Documentação da API - Sistema de Carrinho, Usuários e Produtos
 🛍️ Carrinho
