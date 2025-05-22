@@ -1,36 +1,78 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { ItemCarrinho } from '../../carrinho/entities/item-carrinho.entity';
+// entities/produto.entity.ts
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  DeleteDateColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+export enum StatusProduto {
+  ATIVO = 'ativo',
+  INATIVO = 'inativo',
+}
 
 @Entity('produtos')
 export class Produto {
   @PrimaryGeneratedColumn('uuid')
+  @ApiProperty()
   id!: string;
 
   @Column()
+  @ApiProperty({
+    description: 'Nome do produto',
+  })
   nome!: string;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column({ type: 'decimal' })
+  @ApiProperty({ description: 'Preço do produto' })
   preco!: number;
 
+  @Column({ type: 'decimal', nullable: true })
+  @ApiProperty({
+    description: 'Preço promocional do produto',
+    required: false,
+  })
+  precoPromocional?: number;
+
   @Column()
+  @ApiProperty({
+    description: 'Descrição do produto',
+  })
   descricao!: string;
 
   @Column()
+  @ApiProperty({
+    description: 'URL da imagem do produto',
+  })
   imagemUrl!: string;
 
-  @Column({ default: 0 })
-  estoque: number = 0;
+  @Column({ type: 'int', default: 0 })
+  @ApiProperty({ description: 'Quantidade em estoque' })
+  estoque!: number;
 
-  @OneToMany(() => ItemCarrinho, (item) => item.produto)
-  itensCarrinho!: ItemCarrinho[];
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt!: Date;
+  @Column({ nullable: true })
+  @ApiProperty({
+    description: 'Categoria do produto',
+    required: false,
+  })
+  categoria?: string;
 
   @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
+    type: 'enum',
+    enum: StatusProduto,
+    default: StatusProduto.ATIVO,
   })
-  updatedAt!: Date;
+  status!: StatusProduto;
+
+  @CreateDateColumn()
+  criadoEm!: Date;
+
+  @UpdateDateColumn()
+  atualizadoEm!: Date;
+
+  @DeleteDateColumn({ nullable: true })
+  deletadoEm?: Date;
 }
