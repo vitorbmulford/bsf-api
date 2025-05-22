@@ -1,3 +1,6 @@
+
+![db](https://github.com/user-attachments/assets/261291b5-47d3-478d-9f05-af18f8754cc3)
+
 📦 Documentação da API - Sistema de Carrinho, Usuários e Produtos
 🛍️ Carrinho
 🔸 Criar Carrinho
