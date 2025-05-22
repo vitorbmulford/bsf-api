@@ -1,5 +1,10 @@
 // produtos.service.ts
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Produto, StatusProduto } from './entities/produto.entity';
@@ -7,6 +12,8 @@ import {
   AtualizarProdutoDto,
   CriarProdutoDto,
 } from './dtos/create-produto.dto';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 @Injectable()
 export class ProdutosService {
@@ -85,6 +92,35 @@ export class ProdutosService {
         (error as Error).stack,
       );
       throw error;
+    }
+  }
+
+  async processarAvatar(
+    productId: string,
+    file: Express.Multer.File,
+  ): Promise<string> {
+    const extension = path.extname(file.originalname);
+    const filename = `avatar-${Date.now()}${extension}`;
+    const uploadDir = path.join(process.cwd(), 'uploads', 'avatars');
+    const uploadPath = path.join(uploadDir, filename);
+    try {
+      await fs.mkdir(uploadDir, { recursive: true });
+      await fs.writeFile(uploadPath, file.buffer);
+
+      const avatarUrl = `/uploads/avatars/${filename}`;
+
+      const usuario = await this.produtosRepository.findOneBy({ id: productId });
+      if (!usuario) throw new NotFoundException('Usuário não encontrado');
+
+      usuario.avatar = avatarUrl;
+      await this.produtosRepository.save(usuario);
+
+      return avatarUrl;
+    } catch (error: unknown) {
+      const err = error as Error;
+      this.logger.error(`Erro ao processar avatar: ${err.message}`, err.stack);
+      if (err instanceof NotFoundException) throw err;
+      throw new InternalServerErrorException('Erro ao salvar arquivo');
     }
   }
 }

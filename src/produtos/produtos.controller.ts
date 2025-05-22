@@ -10,14 +10,24 @@ import {
   Logger,
   NotFoundException,
   InternalServerErrorException,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiConsumes,
+  ApiBody,
+} from '@nestjs/swagger';
 import { ProdutosService } from './produtos.service';
 import { Produto } from './entities/produto.entity';
 import {
   AtualizarProdutoDto,
   CriarProdutoDto,
 } from './dtos/create-produto.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('produtos')
 @Controller('produtos')
@@ -173,6 +183,57 @@ export class ProdutosController {
       );
       throw new InternalServerErrorException(
         'Erro desconhecido ao remover produto',
+      );
+    }
+  }
+
+  @Post(':_id/avatar')
+  @ApiOperation({ summary: 'Upload de foto de perfil' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Arquivo de imagem para upload',
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 200, description: 'Avatar atualizado com sucesso' })
+  @ApiResponse({ status: 400, description: 'Arquivo inválido' })
+  @ApiResponse({ status: 404, description: 'Usuário não encontrado' })
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadAvatar(
+    @Param('_id') _id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new BadRequestException('Nenhum arquivo enviado.');
+    }
+    if (!file.mimetype.startsWith('image/')) {
+      throw new BadRequestException('Formato de arquivo não suportado.');
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      throw new BadRequestException('Tamanho máximo permitido é 5MB.');
+    }
+
+    try {
+      const avatarUrl = await this.produtosService.processarAvatar(_id, file);
+      return { mensagem: 'Avatar atualizado com sucesso', avatarUrl };
+    } catch (error: unknown) {
+      this.logger.error(
+        'Erro ao fazer upload de avatar',
+        error instanceof Error ? error.stack : '',
+      );
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(error.message);
+      }
+      throw new InternalServerErrorException(
+        'Erro desconhecido ao atualizar avatar',
       );
     }
   }

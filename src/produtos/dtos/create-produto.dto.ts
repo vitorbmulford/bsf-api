@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { StatusProduto } from '../entities/produto.entity';
+import { Column } from 'typeorm';
 
 export class CriarProdutoDto {
   @ApiProperty()
@@ -55,6 +56,9 @@ export class CriarProdutoDto {
   @IsEnum(StatusProduto)
   @IsOptional()
   status?: StatusProduto;
+
+  @IsOptional()
+  avatar!: string;
 }
 
 export class AtualizarProdutoDto extends PartialType(CriarProdutoDto) {}

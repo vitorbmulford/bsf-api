@@ -67,6 +67,9 @@ export class Produto {
   })
   status!: StatusProduto;
 
+  @Column({ type: 'varchar', nullable: true })
+  avatar!: string;
+
   @CreateDateColumn()
   criadoEm!: Date;
 
