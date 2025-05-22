@@ -1,9 +1,9 @@
-// src/usuarios/entities/usuario.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Carrinho } from 'src/carrinho/entities/carrinho.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('usuarios')
 export class Usuario {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({ type: 'varchar', length: 50 })
@@ -36,4 +36,7 @@ export class Usuario {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt!: Date;
+
+  @OneToMany(() => Carrinho, (carrinho) => carrinho.usuario)
+  carrinhos!: Carrinho[];
 }
