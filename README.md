@@ -1,98 +1,230 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![db](https://github.com/user-attachments/assets/7091c453-d510-461d-a57c-3db98ab54a12)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+📦 Documentação da API - Sistema de Carrinho, Usuários e Produtos
+🛍️ Carrinho
+🔸 Criar Carrinho
 
-## Description
+    POST /carrinhos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+    Body:
 
-## Project setup
+{
+  "usuarioId": "uuid (opcional)"
+}
 
-```bash
-$ npm install
-```
+    Descrição: Cria um carrinho novo. Se não for informado o usuarioId, o carrinho fica desvinculado.
 
-## Compile and run the project
+🔸 Adicionar Item ao Carrinho
 
-```bash
-# development
-$ npm run start
+    POST /carrinhos/:id/itens
 
-# watch mode
-$ npm run start:dev
+    Body:
 
-# production mode
-$ npm run start:prod
-```
+{
+  "produtoId": "uuid",
+  "quantidade": 1
+}
 
-## Run tests
+    Descrição: Adiciona um item ao carrinho especificado por id. Se o item já existir, atualiza a quantidade.
 
-```bash
-# unit tests
-$ npm run test
+🔸 Atualizar Quantidade de um Item
 
-# e2e tests
-$ npm run test:e2e
+    PATCH /carrinhos/:id/itens/:itemId
 
-# test coverage
-$ npm run test:cov
-```
+    Body:
 
-## Deployment
+{
+  "quantidade": 2
+}
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+    Descrição: Atualiza a quantidade de um item específico no carrinho.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+🔸 Alterar Status do Carrinho
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+    PATCH /carrinhos/:id/status
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+    Body:
 
-## Resources
+{
+  "status": "aberto" | "finalizado" | "cancelado"
+}
 
-Check out a few resources that may come in handy when working with NestJS:
+    Descrição: Atualiza o status do carrinho. (Enum: aberto, finalizado, cancelado)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+🔸 Remover Item do Carrinho
 
-## Support
+    DELETE /carrinhos/:id/itens/:itemId
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+    Descrição: Remove um item do carrinho.
 
-## Stay in touch
+🛒 Produtos
+🔸 Criar Produto
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    POST /produtos
 
-## License
+    Body:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+{
+  "nome": "string",
+  "preco": 100.00,
+  "descricao": "string",
+  "imagemUrl": "url válida",
+  "estoque": 10
+}
+
+    Descrição: Cria um novo produto no sistema.
+
+🔸 Atualizar Produto
+
+    PATCH /produtos/:id
+
+    Body:
+
+{
+  "nome": "string (opcional)",
+  "preco": 100.00 (opcional),
+  "descricao": "string (opcional)",
+  "imagemUrl": "url válida (opcional)",
+  "estoque": 10 (opcional)
+}
+
+    Descrição: Atualiza os dados de um produto.
+
+🔸 Listar Produtos
+
+    GET /produtos
+
+    Descrição: Retorna uma lista de todos os produtos.
+
+🔸 Buscar Produto por ID
+
+    GET /produtos/:id
+
+    Descrição: Retorna os dados de um produto específico.
+
+🔸 Deletar Produto
+
+    DELETE /produtos/:id
+
+    Descrição: Remove um produto do sistema.
+
+👤 Usuários
+🔸 Criar Usuário
+
+    POST /usuarios
+
+    Body:
+
+{
+  "tipo": "string",
+  "nome": "string",
+  "celular": "string",
+  "email": "email válido",
+  "password": "string"
+}
+
+    Descrição: Cria um usuário.
+
+🔸 Login
+
+    POST /auth/login
+
+    Body:
+
+{
+  "email": "email válido",
+  "password": "string"
+}
+
+    Descrição: Realiza autenticação e retorna um token JWT.
+
+🔸 Atualizar Usuário
+
+    PATCH /usuarios/:id
+
+    Body:
+
+{
+  "nome": "string (opcional)",
+  "celular": "string (opcional)",
+  "email": "email válido (opcional)",
+  "tipo": "musico | contratante | admin (opcional)",
+  "cidade": "string (opcional)",
+  "estado": "string (opcional)",
+  "generos": ["string", "string"] (opcional),
+  "instrumentos": ["string", "string"] (opcional),
+  "biografia": "string (opcional)",
+  "avatar": "string (opcional)",
+  "midias": [
+    {
+      "tipo": "video | imagem",
+      "url": "string"
+    }
+  ] (opcional)
+}
+
+    Descrição: Atualiza dados do usuário, incluindo mídias, instrumentos e gêneros.
+
+🔸 Redefinir Senha
+
+    POST /usuarios/:id/redefinir-senha
+
+    Body:
+
+{
+  "novaSenha": "string",
+  "confirmacaoSenha": "string"
+}
+
+    Descrição: Atualiza a senha do usuário. A senha e a confirmação devem ser iguais.
+
+🔐 Enumerações
+✔️ Status do Carrinho
+
+    aberto
+
+    finalizado
+
+    cancelado
+
+✔️ Tipo de Usuário
+
+    musico
+
+    contratante
+
+    admin
+
+✔️ Tipo de Mídia
+
+    video
+
+    imagem
+
+🔗 Relacionamentos
+Entidade	Relacionamento	Descrição
+Usuario	Carrinho (1:N)	Um usuário pode ter vários carrinhos
+Carrinho	ItemCarrinho (1:N)	Um carrinho possui vários itens
+ItemCarrinho	Produto (N:1)	Cada item pertence a um produto
+📑 Validações Importantes
+
+    UUIDs: Verificados em campos como usuarioId, produtoId, carrinhoId.
+
+    E-mails: Validados no formato correto.
+
+    Quantidade: Deve ser inteiro e mínimo de 1.
+
+    Status e Enumerações: Verificação de valores válidos (status, tipo, midias).
+
+    URLs: Apenas URLs válidas são aceitas para imagens e mídias.
+
+🚀 Possíveis Extensões Futuras
+
+    ✅ Rate limiting
+
+    ✅ Logs de alterações no carrinho
+
+    ✅ Histórico de pedidos (quando o carrinho for finalizado)
+
+    ✅ Sistema de pagamentos integrado
