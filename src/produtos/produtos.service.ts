@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // produtos.service.ts
 import {
   Injectable,
