@@ -11,7 +11,6 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { StatusProduto } from '../entities/produto.entity';
-import { Column } from 'typeorm';
 
 export class CriarProdutoDto {
   @ApiProperty()
@@ -57,7 +56,7 @@ export class CriarProdutoDto {
   @IsOptional()
   status?: StatusProduto;
 
-  @IsOptional()
+  @IsString()
   avatar!: string;
 }
 

@@ -43,12 +43,6 @@ export class Produto {
   })
   descricao!: string;
 
-  @Column()
-  @ApiProperty({
-    description: 'URL da imagem do produto',
-  })
-  imagemUrl!: string;
-
   @Column({ type: 'int', default: 0 })
   @ApiProperty({ description: 'Quantidade em estoque' })
   estoque!: number;
@@ -67,7 +61,7 @@ export class Produto {
   })
   status!: StatusProduto;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar' })
   avatar!: string;
 
   @CreateDateColumn()
