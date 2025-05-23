@@ -16,7 +16,7 @@ export enum StatusProduto {
 
 @Entity('produtos')
 export class Produto {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @ApiProperty()
   id!: string;
 

@@ -10,7 +10,7 @@ import { Carrinho } from './carrinho.entity';
 
 @Entity('itens_carrinho')
 export class ItemCarrinho {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id!: string;
 
   @ManyToOne(() => Carrinho, (carrinho) => carrinho.itens, {
